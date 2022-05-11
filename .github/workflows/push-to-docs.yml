@@ -1,0 +1,35 @@
+name: Push documentation to docs repo
+
+on:
+  workflow_call:
+    inputs:
+      path-to-push:
+        required: true
+        type: string
+    secrets:
+      API_TOKEN_GITHUB:
+        required: true
+  workflow_dispatch:
+
+jobs:
+  push-to-docs:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Pushes to nevermined.io/docs repository
+        run: |
+          git clone --branch master https://github.com/alvarof2/docs.git ../_docs
+          cd ../_docs
+          git checkout -b ${{ env.REPOSITORY_NAME }}-docs
+          mkdir -p ${{ inputs.path-to-push }}
+          cp -rf ../${{ env.REPOSITORY_NAME }}/docs/* ${{ inputs.path-to-push }}
+          git config --global user.email "robot@robot.com"
+          git config --global user.name "Robot"
+          git add .
+          git commit -m "Update ${{ env.REPOSITORY_NAME }} docs"
+          git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/alvarof2/docs.git ${{ env.REPOSITORY_NAME }}-docs
