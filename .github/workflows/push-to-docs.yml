@@ -23,7 +23,7 @@ jobs:
 
       - name: Pushes to nevermined.io/docs repository
         run: |
-          git clone --branch master https://github.com/alvarof2/docs.git ../_docs
+          git clone --branch master https://github.com/nevermined-io/docs.git ../_docs
           cd ../_docs
           git checkout -b ${{ env.REPOSITORY_NAME }}-docs
           mkdir -p ${{ inputs.path-to-push }}
@@ -32,4 +32,4 @@ jobs:
           git config --global user.name "Robot"
           git add .
           git commit -m "Update ${{ env.REPOSITORY_NAME }} docs"
-          git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/alvarof2/docs.git ${{ env.REPOSITORY_NAME }}-docs
+          git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/docs.git ${{ env.REPOSITORY_NAME }}-docs
