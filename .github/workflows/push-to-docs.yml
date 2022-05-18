@@ -32,7 +32,7 @@ jobs:
           cd ../_docs
           git checkout -b ${{ env.REPOSITORY_NAME }}-docs
           mkdir -p ${{ inputs.path-to-push }}
-          cp -rf ../${{ env.REPOSITORY_NAME }}/docs/* ${{ inputs.path-to-push }}
+          cp -rf ../${{ env.REPOSITORY_NAME }}/docs/* ${{ inputs.path-to-push }} || true
           for f in ${{ inputs.path-to-push }}/*.json; do [ -f "$f" ] || break; widdershins $f -o ${f%.*}.md; done
           rm -rf ${{ inputs.path-to-push }}/*.json
           git config --global user.email "robot@robot.com"
