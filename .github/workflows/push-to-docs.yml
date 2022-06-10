@@ -6,6 +6,10 @@ on:
       path-to-push:
         required: true
         type: string
+      repo-to-push:
+        required: false
+        default: 'docs'
+        type: string
     secrets:
       API_TOKEN_GITHUB:
         required: true
@@ -28,7 +32,7 @@ jobs:
 
       - name: Pushes to nevermined.io/docs repository
         run: |
-          git clone --branch master https://github.com/nevermined-io/docs.git ../_docs
+          git clone --branch master https://github.com/nevermined-io/${{ inputs.repo-to-push }}.git ../_docs
           cd ../_docs
           git checkout -b ${{ env.REPOSITORY_NAME }}-docs
           mkdir -p ${{ inputs.path-to-push }}
@@ -39,4 +43,4 @@ jobs:
           git config --global user.name "Robot"
           git add .
           git commit -m "Update ${{ env.REPOSITORY_NAME }} docs"
-          git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/docs.git ${{ env.REPOSITORY_NAME }}-docs
+          git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git ${{ env.REPOSITORY_NAME }}-docs
