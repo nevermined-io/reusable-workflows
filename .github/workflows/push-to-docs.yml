@@ -28,13 +28,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-      - run: npm install -g widdershins
-
       - run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
         shell: bash
 
@@ -44,8 +37,6 @@ jobs:
           cd ../_docs
           mkdir -p ${{ inputs.path-to-push }}
           cp -rf ../${{ env.REPOSITORY_NAME }}/${{ inputs.path-to-copy }}* ${{ inputs.path-to-push }} || true
-          for f in ${{ inputs.path-to-push }}/*.json; do [ -f "$f" ] || break; widdershins $f -o ${f%.*}.md; done
-          rm -rf ${{ inputs.path-to-push }}/*.json
           git config --global user.email "robot@robot.com"
           git config --global user.name "Robot"
           git add .
