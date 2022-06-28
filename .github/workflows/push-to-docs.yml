@@ -10,6 +10,10 @@ on:
         required: false
         default: 'docs'
         type: string
+      branch-to-push:
+        required: false
+        default: 'master'
+        type: string
     secrets:
       API_TOKEN_GITHUB:
         required: true
@@ -32,7 +36,7 @@ jobs:
 
       - name: Pushes to nevermined.io/docs repository
         run: |
-          git clone --branch master https://github.com/nevermined-io/${{ inputs.repo-to-push }}.git ../_docs
+          git clone --branch master https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git ../_docs
           cd ../_docs
           git checkout -b ${{ env.REPOSITORY_NAME }}-docs
           mkdir -p ${{ inputs.path-to-push }}
