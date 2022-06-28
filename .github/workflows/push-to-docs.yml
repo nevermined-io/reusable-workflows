@@ -6,6 +6,10 @@ on:
       path-to-push:
         required: true
         type: string
+      path-to-copy:
+        required: false
+        default: 'docs/'
+        type: string
       repo-to-push:
         required: false
         default: 'docs'
@@ -39,7 +43,7 @@ jobs:
           git clone --branch ${{ inputs.branch-to-clone }} https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git ../_docs
           cd ../_docs
           mkdir -p ${{ inputs.path-to-push }}
-          cp -rf ../${{ env.REPOSITORY_NAME }}/docs/* ${{ inputs.path-to-push }} || true
+          cp -rf ../${{ env.REPOSITORY_NAME }}/${{ inputs.path-to-copy }}* ${{ inputs.path-to-push }} || true
           for f in ${{ inputs.path-to-push }}/*.json; do [ -f "$f" ] || break; widdershins $f -o ${f%.*}.md; done
           rm -rf ${{ inputs.path-to-push }}/*.json
           git config --global user.email "robot@robot.com"
