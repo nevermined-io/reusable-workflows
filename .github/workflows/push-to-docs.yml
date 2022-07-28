@@ -38,11 +38,9 @@ jobs:
       - run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
         shell: bash
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       - name: Pushes to nevermined.io/docs repository
         run: |
+          cat <<EOF > output.log
           git clone --branch ${{ inputs.branch-to-clone }} https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git ../_docs
           cd ../_docs
           mkdir -p ${{ inputs.path-to-push }}
@@ -54,3 +52,7 @@ jobs:
           git add .
           git commit -m "Update ${{ env.REPOSITORY_NAME }} docs"
           git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git
+          EOF
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
