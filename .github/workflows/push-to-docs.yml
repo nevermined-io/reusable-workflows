@@ -52,5 +52,14 @@ jobs:
           git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git
           EOF
 
+          git clone --branch ${{ inputs.branch-to-clone }} https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git ../_docs
+          cd ../_docs
+          mkdir -p ${{ inputs.path-to-push }}
+          cp -rf ../${{ env.REPOSITORY_NAME }}/${{ inputs.path-to-copy }}* ${{ inputs.path-to-push }} || true
+          git config --global user.email "robot@robot.com"
+          git config --global user.name "Robot"
+          git add .
+          git commit -m "Update ${{ env.REPOSITORY_NAME }} docs"
+          git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
