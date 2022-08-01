@@ -39,7 +39,7 @@ jobs:
 
       - name: Pushes to nevermined.io/docs repository
         run: |
-          git clone --branch ${{ inputs.branch-to-clone }} https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git ../_docs
+          git clone --branch ${{ inputs.branch-to-clone }} https://nvm-bot:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git ../_docs
           cd ../_docs
           mkdir -p ${{ inputs.path-to-push }}
           cp -rf ../${{ env.REPOSITORY_NAME }}/${{ inputs.path-to-copy }}* ${{ inputs.path-to-push }} || true
@@ -48,4 +48,4 @@ jobs:
           git add .
           # If there are no changes, git commit returns 1
           git commit -m "Update ${{ env.REPOSITORY_NAME }} docs" || true
-          git push -f https://alvarof2:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git
+          git push -f https://nvm-bot:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/${{ inputs.repo-to-push }}.git
