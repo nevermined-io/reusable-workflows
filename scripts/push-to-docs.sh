@@ -23,4 +23,4 @@ git config --global user.email "devops@nevermined.io"
 git config --global user.name "Nevermined BOT"
 git add .
 git commit -m "Update $REPOSITORY_NAME docs"
-git push -f https://nvm-bot:${{ secrets.API_TOKEN_GITHUB }}@github.com/nevermined-io/$REPO_TO_PUSH.git
+git push -f https://nvm-bot:$API_TOKEN_GITHUB@github.com/nevermined-io/$REPO_TO_PUSH.git
